@@ -61,8 +61,8 @@ export default function TaskBoard() {
     const handleTaskFavourite = (id) => {
         setTasks(
             tasks.map((task) => {
-                if(task.id === id){
-                    return task.isFavourite ? {...task, isFavourite: false} : {...task, isFavourite: true};
+                if (task.id === id) {
+                    return task.isFavourite ? { ...task, isFavourite: false } : { ...task, isFavourite: true };
                 }
                 return task;
             })
@@ -76,6 +76,15 @@ export default function TaskBoard() {
 
     }
 
+    const handleSearch = (searchTerm) => {
+
+        const filteredTasks = tasks.filter((task) =>
+            task.title.trim().toLowerCase().includes(searchTerm.trim().toLowerCase())
+        );
+
+        setTasks([...filteredTasks]);
+    }
+
     return (
         <section className="mb-20" id="tasks">
             {showAddTaskModal && <AddTaskModal
@@ -84,7 +93,7 @@ export default function TaskBoard() {
                 onCloseClick={handleClose}
             />}
             <div className="container">
-                <TaskSearch />
+                <TaskSearch onSearch={handleSearch} />
 
                 <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
                     <TaskAction onAddClick={() => setShowAddTaskModal(true)} onDeleteAll={handleDeleteAllTask} />
