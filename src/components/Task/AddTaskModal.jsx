@@ -9,9 +9,19 @@ const AddTaskModal = () => {
         isFavourite: false,
     });
 
-    function handleChange(e) {
+    function handleChange(event) {
+        let { name, value } = event.target;
 
+        if(name === 'tags') {
+            value = value.split(',');
+        }
+        setTask({
+            ...task,
+            [name]: value,
+            isFavourite: true,
+        })
     }
+    console.log(task);
 
     return (
         <>
