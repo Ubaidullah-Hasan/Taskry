@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-const AddTaskModal = () => {
-    const [task, setTask] = useState({
+const AddTaskModal = ({ onSave, taskToUpdate, onCloseClick }) => {
+    const [task, setTask] = useState(taskToUpdate || {
+        id: crypto.randomUUID(),
         title: '',
         description: '',
         tags: '',
@@ -9,19 +10,20 @@ const AddTaskModal = () => {
         isFavourite: false,
     });
 
+    const isAdd = Object.is(taskToUpdate, null);
+
+
     function handleChange(event) {
         let { name, value } = event.target;
 
-        if(name === 'tags') {
+        if (name === 'tags') {
             value = value.split(',');
         }
         setTask({
             ...task,
             [name]: value,
-            isFavourite: true,
         })
     }
-    console.log(task);
 
     return (
         <>
@@ -32,7 +34,7 @@ const AddTaskModal = () => {
                 <h2
                     class="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]"
                 >
-                    Add New Task
+                    {isAdd ? "Add New Task" : "Edit Task"}
                 </h2>
 
                 <div class="space-y-9 text-white lg:space-y-10">
@@ -91,19 +93,27 @@ const AddTaskModal = () => {
                                 required
                             >
                                 <option value="">Select Priority</option>
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="mt-16 flex justify-center lg:mt-20">
+                <div class="mt-16 flex justify-between lg:mt-20">
                     <button
+                        className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
+                        onClick={onCloseClick}
+                    >
+                        Close
+                    </button>
+
+                    <button
+                        onClick={() => onSave(task, isAdd)}
                         type="submit"
                         class="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
                     >
-                        Create new Task
+                        Save
                     </button>
                 </div>
             </form>
