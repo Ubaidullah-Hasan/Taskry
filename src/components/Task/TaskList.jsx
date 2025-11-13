@@ -3,7 +3,7 @@ import { FaStar } from "react-icons/fa";
 import getRandomDeepColorRGB from '../../utilities/randomColorGenerate';
 
 
-const TaskList = ({ tasks, setTasks }) => {
+const TaskList = ({ tasks }) => {
 
     return (
         <div className="overflow-auto">
